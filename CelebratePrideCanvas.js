@@ -47,7 +47,7 @@ function rainbowLGBT(url, cw, callback) {
         }
         canvas = null;
     };
-    img.onerror = function() {
+    img.onerror = function () {
         $submit.css('backgroundImage', 'url(img/cancel.png)');
     };
     img.src = url;
@@ -73,11 +73,11 @@ $add.on('submit', function (e) {
         $submit.removeAttr('style');
     });
 });
-$input.on('input', function(){
+$input.on('input', function () {
     var val = $input.val();
-    if($.trim(val) === '') {
+    if ($.trim(val) === '') {
         $submit.css('backgroundImage', 'url(img/enter.png)');
-    } else if(/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(val)) {
+    } else if (/^https?:\/\/.+$/.test(val)) {
         $submit.css('backgroundImage', 'url(img/ok.png)');
     } else {
         $submit.css('backgroundImage', 'url(img/cancel.png)');
