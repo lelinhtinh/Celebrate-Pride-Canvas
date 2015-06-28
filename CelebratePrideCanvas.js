@@ -2,13 +2,13 @@
  *  Project: Celebrate Pride Canvas
  *  Description: Puts a rainbow filter over your image like Facebook 'Celebrate Pride'.
  *  Author: Zzbaivong (devs.forumvi.com)
- *  Version: 0.2
+ *  Version: 0.9
  *  License: MIT
  */
 
 /**
  * Get image data
- * @param {Array} files 
+ * @param {Array} files
  */
 function readerImage(files) {
     if (files.length && files[0].type.indexOf('image/') === 0) {
@@ -33,6 +33,35 @@ function generator(url) {
         $add.slideUp('fast');
         $complete.slideDown('fast');
         $submit.removeAttr('style');
+
+        uploadImage = $.ajax({
+            url: 'https://api.imgur.com/3/image',
+            xhr: function () {
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener('progress', function (evt) {
+                    if (evt.lengthComputable) {
+                        var percentComplete = evt.loaded / evt.total * 100 + '%';
+                        $progress.width(percentComplete);
+                    }
+                }, false);
+                return xhr;
+            },
+            method: 'POST',
+            headers: {
+                Authorization: 'Client-ID 9ac8502e00ab613'
+            },
+            data: {
+                image: img.replace(/.*,/, ''),
+                type: 'base64'
+            },
+            success: function (result) {
+                window.location = 'http://imgur.com/' + result.data.id;
+            },
+            error: function (json) {
+                $progress.removeAttr('style');
+                console.log(json);
+            }
+        });
     });
 }
 
@@ -91,13 +120,15 @@ function rainbowLGBT(url, cw, callback) {
     img.src = url;
 }
 
-var $wrap_img = $('#celebrate-img'),
+var uploadImage,
+    $wrap_img = $('#celebrate-img'),
     $add = $('#celebrate-add'),
     $input = $('#celebrate-input'),
     $submit = $('#celebrate-submit'),
     $complete = $('#celebrate-complete'),
     $reset = $('#celebrate-reset'),
-    $download = $('#celebrate-download');
+    $download = $('#celebrate-download'),
+    $progress = $('#celebrate-progress');
 
 $add.on('submit', function (event) {
     event.preventDefault();
@@ -118,20 +149,21 @@ $input.on('input', function () {
 });
 
 $reset.on('click', function () {
-    $wrap_img.height(320).html('<div><strong>Drop image</strong><br><span>(or click)</span></div>').removeClass('generator');
+    $wrap_img.removeAttr('style').html('<div><strong>Drop image</strong><br><span>(or click)</span></div>').removeClass('generator');
     $add.slideDown('fast');
     $complete.slideUp('fast');
     $submit.removeAttr('style');
+    uploadImage.abort();
 });
 
-$wrap_img.on('dragenter', function () {
-    event.preventDefault();
-    $wrap_img.addClass('dragging');
-});
+//$wrap_img.on('dragenter', function () {
+//    event.preventDefault();
+//    $wrap_img.addClass('dragging');
+//});
 
 $wrap_img.on('dragover', function (event) {
-    $wrap_img.addClass('dragging');
     event.preventDefault();
+    $wrap_img.addClass('dragging');    
 });
 
 $wrap_img.on('dragleave', function (event) {
@@ -139,7 +171,7 @@ $wrap_img.on('dragleave', function (event) {
     $wrap_img.removeClass('dragging');
 });
 
-$wrap_img.on('click', function() {
+$wrap_img.on('click', function () {
     $('#celebrate-file').click();
 });
 
