@@ -15,11 +15,48 @@ body {
 }
 
 #celebrate-img {
-    width: 320px;
-    height: 320px;
+    border: 14px dashed #fff;
+    width: 292px;
+    height: 292px;
     margin: 0 auto;
     overflow: hidden;
     background: url(img/drop.png) center center no-repeat #fff;
+    position: relative;
+}
+
+#celebrate-img.dragging,
+#celebrate-img:hover {
+    border-color: #2196f3;
+    cursor: pointer;
+}
+
+#celebrate-img.generator {
+    border-color: #fff;
+    border: 0 none;
+    width: 320px;
+    height: 320px;
+    background: url(data:image/gif;base64,R0lGODlhCgAKAIAAAAAAAP///yH5BAEAAAAALAAAAAAKAAoAAAIRhB2ZhxoM3GMSykqd1VltzxQAOw==) repeat scroll #ddd;
+}
+
+#celebrate-img > div {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    height: 35px;
+    margin: auto;
+    text-align: center;
+    color: #464646;
+}
+
+#celebrate-img.dragging > div,
+#celebrate-img:hover > div {
+    color: #2196f3;
+}
+
+#celebrate-file {
+    display: none;
 }
 
 .wrap-btn {
@@ -70,8 +107,9 @@ body {
 
 #celebrate-download {
     display: block;
+    padding: 0;
+    left: auto;
     right: 0;
     width: 260px;
-    left: auto;
     background: url(img/download.png) no-repeat center center rgb(0, 119, 255);
 }
