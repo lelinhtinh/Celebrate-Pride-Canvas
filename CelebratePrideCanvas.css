@@ -16,8 +16,8 @@ body {
 
 #celebrate-img {
     border: 14px dashed #fff;
-    width: 292px;
-    height: 292px;
+    width: 320px;
+    height: 320px;
     margin: 0 auto;
     overflow: hidden;
     background: url(img/drop.png) center center no-repeat #fff;
@@ -33,8 +33,6 @@ body {
 #celebrate-img.generator {
     border-color: #fff;
     border: 0 none;
-    width: 320px;
-    height: 320px;
     background: url(data:image/gif;base64,R0lGODlhCgAKAIAAAAAAAP///yH5BAEAAAAALAAAAAAKAAoAAAIRhB2ZhxoM3GMSykqd1VltzxQAOw==) repeat scroll #ddd;
 }
 
