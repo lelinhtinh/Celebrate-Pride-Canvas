@@ -2,7 +2,7 @@
  *  Project: Celebrate Pride Canvas
  *  Description: Puts a rainbow filter over your image like Facebook 'Celebrate Pride'.
  *  Author: Zzbaivong (devs.forumvi.com)
- *  Version: 0.9
+ *  Version: 1
  *  License: MIT
  */
 
@@ -116,6 +116,7 @@ function rainbowLGBT(url, cw, callback) {
     };
     img.onerror = function () {
         $submit.css('backgroundImage', 'url(img/cancel.png)');
+        $wrap_img.removeClass('generator');
     };
     img.src = url;
 }
@@ -141,7 +142,7 @@ $input.on('input', function () {
     var val = $input.val();
     if ($.trim(val) === '') {
         $submit.css('backgroundImage', 'url(img/enter.png)');
-    } else if (/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(val)) {
+    } else if (val.indexOf('http') === 0) {
         $submit.css('backgroundImage', 'url(img/ok.png)');
     } else {
         $submit.css('backgroundImage', 'url(img/cancel.png)');
