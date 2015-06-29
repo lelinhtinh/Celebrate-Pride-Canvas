@@ -2,7 +2,7 @@
  *  Project: Celebrate Pride Canvas
  *  Description: Puts a rainbow filter over your image like Facebook 'Celebrate Pride'.
  *  Author: Zzbaivong (devs.forumvi.com)
- *  Version: 1
+ *  Version: 1.1
  *  License: MIT
  */
 
@@ -15,7 +15,7 @@ function readerImage(files) {
         var reader = new FileReader();
         reader.readAsDataURL(files[0]);
         reader.onload = function (_file) {
-            generator(_file.target.result);
+            generator(_file.target.result, false);
         };
     }
 }
@@ -24,9 +24,9 @@ function readerImage(files) {
  * Rainbow image gen
  * @param {String} url Image url
  */
-function generator(url) {
+function generator(url, cross) {
     $wrap_img.addClass('generator');
-    rainbowLGBT(url, 320, function (img) {
+    rainbowLGBT(url, cross, 320, function (img) {
         $wrap_img.html('<a href="' + img + '" download="Celebratepride.png"><img src="' + img + '" alt="Celebratepride.png"></a>');
         $download.attr('href', img);
         $input.prop('disable', false).val('');
@@ -67,12 +67,16 @@ function generator(url) {
 
 /**
  * Puts a filter over image
- * @param {String} url      Image URL
- * @param {String} callback Export to base64 image
+ * @param  {String}   url      Image url
+ * @param  {Boolean}   cross    CrossOrigin
+ * @param  {Number}   cw       Image width
+ * @param  {Function} callback Export to base64 image
  */
-function rainbowLGBT(url, cw, callback) {
+function rainbowLGBT(url, cross, cw, callback) {
     var img = new Image();
-    img.crossOrigin = 'Anonymous';
+    if (cross) {
+        img.crossOrigin = 'Anonymous';
+    }
     img.onload = function () {
         var canvas = document.createElement('CANVAS');
         var ctx = canvas.getContext('2d');
@@ -135,7 +139,7 @@ $add.on('submit', function (event) {
     event.preventDefault();
     $input.prop('disable', true);
     $submit.css('backgroundImage', 'url(img/load.gif)');
-    generator($input.val());
+    generator($input.val(), true);
 });
 
 $input.on('input', function () {
@@ -164,7 +168,7 @@ $reset.on('click', function () {
 
 $wrap_img.on('dragover', function (event) {
     event.preventDefault();
-    $wrap_img.addClass('dragging');    
+    $wrap_img.addClass('dragging');
 });
 
 $wrap_img.on('dragleave', function (event) {
