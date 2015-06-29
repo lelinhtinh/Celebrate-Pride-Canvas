@@ -142,13 +142,10 @@ $input.on('input', function () {
     var val = $input.val();
     if ($.trim(val) === '') {
         $submit.css('backgroundImage', 'url(img/enter.png)');
-        $wrap_img.hasClass('generator') && $wrap_img.removeClass('generator');
     } else if (val.indexOf('http') === 0) {
         $submit.css('backgroundImage', 'url(img/ok.png)');
-        !$wrap_img.hasClass('generator') && $wrap_img.addClass('generator');
     } else {
         $submit.css('backgroundImage', 'url(img/cancel.png)');
-        $wrap_img.hasClass('generator') && $wrap_img.removeClass('generator');
     }
 });
 
